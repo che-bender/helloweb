@@ -47,8 +47,8 @@
             let x = firstball.x;
             let y = firstball.y;
             let r = firstball.r + Math.random() * 1;
-            let vx = firstball.vx + Math.random() * 5;
-            let vy = firstball.vy + Math.random() * 5;
+            let vx = firstball.vx + (Math.random() - 0.5) * 5;
+            let vy = firstball.vy + (Math.random() - 0.5) * 5;
             let color = colors[i%colors.length];
 
             var ball = new Ball(x,y,r,vx,vy,color);
