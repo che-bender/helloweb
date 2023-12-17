@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Tan Qiu</title>
+    <style>* { padding: 0; margin: 0; } canvas { background: #eee; display: block; margin: 0 auto; }</style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="350" height="600"></canvas>
+
+<script>
+    class Ball {
+        constructor(x,y,r,vx,vy,color){
+            this.x = x;
+            this.y = y;
+            this.r = r;
+            this.vx = vx;
+            this.vy = vy;
+            this.color = color;
+        }
+
+        move(t){
+            let dx = this.x + (this.vx * t);
+            let dy = this.y + (this.vy * t);
+
+            if(dx > 350-this.r || dx < this.r) {
+                this.vx = -this.vx;
+            }
+            if(dy > 600-this.r || dy < this.r) {
+                this.vy = -this.vy;
+            }
+
+            this.x = this.x + (this.vx * t);
+            this.y = this.y + (this.vy * t);
+            //console.log('this.x',this.x);
+            //console.log('this.y',this.y);
+        } 
+    }
+
+    function initBalls(N) {
+        var balls = [];
+        var colors = ["#0095DD","#c71585","#2f4f4f","#191970","#800080","#99CCFF"]
+        var firstball = new Ball(125,300,3,0.1,0.1,"#0095DD");
+
+        for (let i = 0; i < N; i++){
+            let x = firstball.x;
+            let y = firstball.y;
+            let r = firstball.r + Math.random() * 1;
+            let vx = firstball.vx + Math.random() * 5;
+            let vy = firstball.vy + Math.random() * 5;
+            let color = colors[i%colors.length];
+
+            var ball = new Ball(x,y,r,vx,vy,color);
+            balls.push(ball)
+        }
+        //balls.push(firstball);
+        return balls;
+    }
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var balls = initBalls(150);
+
+    function drawBalls() {
+        balls.forEach((ball) => {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
+            ctx.fillStyle = ball.color;
+            ctx.fill();
+            ctx.closePath();
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBalls(balls);
+
+        balls.forEach((ball)=>{
+            ball.move(1);
+        });
+
+    }
+
+    setInterval(draw, 10);
+</script>
+</body>
+</html>
